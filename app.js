@@ -73,28 +73,40 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 5. Offline Knowledge Base Search Engine
-    function searchKnowledgeBase(query) {
+        function searchKnowledgeBase(query) {
         const db = window.VIDYASTRA_DATABASE || {};
-        const lowerQuery = query.toLowerCase().trim();
+        const cleanQuery = query.toLowerCase().trim();
+        
+        // वाक्य में से 'का', 'के', 'नियम' जैसे शब्द हटाकर मुख्य शब्द निकालना
+        const keywords = cleanQuery
+            .replace(/(का|की|के|को|में|पर|से|नियम|प्रमेय|क्या है|बताओ|लिखिए)/g, '')
+            .trim()
+            .split(/\s+/);
 
-        // Direct Topic Match
+        // 1. Direct Topic Match
         for (let topic in db) {
-            if (topic.toLowerCase().includes(lowerQuery) || lowerQuery.includes(topic.toLowerCase())) {
+            const lowerTopic = topic.toLowerCase();
+            if (lowerTopic.includes(cleanQuery) || cleanQuery.includes(lowerTopic)) {
                 return db[topic];
             }
         }
 
-        // Deep Content Keyword Search
+        // 2. Keyword Match
         for (let topic in db) {
-            const content = db[topic];
-            if (typeof content === 'string' && content.toLowerCase().includes(lowerQuery)) {
-                return `### 📌 संबंधित विषय: ${topic}\n\n${content}`;
+            const lowerTopic = topic.toLowerCase();
+            const content = typeof db[topic] === 'string' ? db[topic].toLowerCase() : '';
+
+            for (let kw of keywords) {
+                if (kw.length > 1 && (lowerTopic.includes(kw) || content.includes(kw))) {
+                    return `### 📌 संबंधित विषय: ${topic}\n\n${db[topic]}`;
+                }
             }
         }
 
-        // Fallback Response
-        return `क्षमा करें, मुझे **"${query}"** से संबंधित सटीक उत्तर नहीं मिला।\n\n💡 **सुझाव:**\n- विषय का नाम या मुख्य कीवर्ड सही से लिखें (जैसे: *गॉस प्रमेय, राउल्ट नियम, जैव विविधता, जनसांख्यिकी, माँग का नियम*)।`;
-    }
+        // 3. Fallback Response
+        return `क्षमा करें, मुझे **"${query}"** से संबंधित सटीक उत्तर नहीं मिला।\n\n💡 **सुझाव:**\n- केवल मुख्य शब्द लिखें (जैसे: *गॉस, राउल्ट, जैव विविधता, जनसांख्यिकी, माँग* आदि)।`;
+        }
+    
 
     // 6. Message Rendering Functions with Animated Avatars
     function appendUserMessage(msg) {
