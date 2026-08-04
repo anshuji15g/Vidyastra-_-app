@@ -2,82 +2,69 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Google SEO Meta Tags -->
-    <title>Vidyastra - Study War 12th | Free AI Tutor for Class 11th & 12th</title>
-    <meta name="description" content="Vidyastra (विद्यास्त्र) - Study War 12th: Class 11th, 12th, UPSC, UPP, and Agniveer preparation with free offline AI tutor engine. Made by Ayushman.">
-    <meta name="keywords" content="Vidyastra, Study War 12th, Class 12 Physics, Chemistry, Biology, Hindi, English, History, Political Science, UPSC, Ayushman">
-    <meta name="author" content="Ayushman">
-    <meta name="theme-color" content="#0b0e11">
-    
-    <!-- PWA Manifest Link -->
-    <link rel="manifest" href="manifest.json">
-    
-    <!-- Highlight.js CDN for Syntax Highlighting -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-    
-    <!-- Google Fonts & FontAwesome -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <title>Vidyastra - Study War 12th</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- Onboarding / Welcome Modal Screen -->
-    <div id="onboarding-screen" class="onboarding-overlay">
-        <div class="onboarding-card glass-panel">
-            <div class="logo-glow">SW</div>
-            <h1>Vidyastra</h1>
-            <p class="subtitle">Study War 12th</p>
-            <p class="tagline">आपका अपना स्मार्ट AI ट्यूटर प्लेटफ़ॉर्म</p>
-            
-            <div class="input-group">
-                <label for="username-input"><i class="fa-solid fa-user"></i> आपका शुभ नाम क्या है?</label>
-                <input type="text" id="username-input" placeholder="यहाँ अपना नाम लिखें..." autocomplete="off">
+    <!-- Background Animated Blobs -->
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+
+    <!-- Onboarding Screen -->
+    <div id="onboarding-screen" class="screen-container">
+        <div class="glass-card onboarding-card">
+            <div class="brand-badge pulse-animation">
+                <span class="avatar-icon animated-tutor">🤖</span>
+                <span class="brand-title">Study War 12th</span>
             </div>
+            <p class="brand-subtitle">Made by Ayushman</p>
             
-            <button id="start-btn" class="neon-btn">शुरू करें <i class="fa-solid fa-arrow-right"></i></button>
-            <p class="credits">Made by Ayushman</p>
+            <h1 class="welcome-heading">Study War 12th में आपका स्वागत है!</h1>
+            <p class="welcome-subtext">आपका शुभ नाम क्या है?</p>
+
+            <div class="input-group">
+                <input type="text" id="username-input" placeholder="अपना नाम यहाँ लिखें..." autocomplete="off">
+            </div>
+
+            <button id="start-btn" class="neon-btn">
+                <span>शुरू करें</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
         </div>
     </div>
 
     <!-- Main App Container -->
-    <div id="app-container" class="app-container hidden">
-        <!-- Neon Glass Header -->
-        <header class="neon-header glass-panel">
+    <div id="app-container" class="screen-container hidden">
+        <!-- Header -->
+        <header class="app-header glass-panel">
             <div class="header-left">
-                <div class="logo-icon-small">SW</div>
-                <div class="header-titles">
-                    <h2 class="gradient-text">Study War 12th</h2>
-                    <span class="author-tag">Made by Ayushman</span>
+                <div class="brand-avatar animated-tutor">🤖</div>
+                <div class="header-info">
+                    <h2>Study War 12th</h2>
+                    <span class="status-online"><i class="fa-solid fa-circle"></i> AI Tutor Offline Active</span>
                 </div>
             </div>
             <div class="header-right">
-                <span id="user-display-name" class="user-badge"></span>
+                <div class="user-badge">
+                    <span class="animated-user">👤</span>
+                    <span id="display-username">विद्यार्थी</span>
+                </div>
             </div>
         </header>
 
-        <!-- Chat Area -->
-        <main id="chat-box" class="chat-box">
-            <!-- Messages will be dynamically rendered here -->
-        </main>
+        <!-- Chat Box -->
+        <main id="chat-box" class="chat-area"></main>
 
-        <!-- Typing Indicator -->
-        <div id="typing-indicator" class="typing-indicator hidden">
-            <div class="bot-avatar">🤖</div>
-            <div class="dots-container glass-panel">
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-            </div>
-        </div>
-
-        <!-- Input Footer Area -->
-        <footer class="input-footer glass-panel">
-            <form id="chat-form">
-                <input type="text" id="chat-input" placeholder="यहाँ प्रश्न पूछें (जैसे: गॉस प्रमेय, राउल्ट नियम)..." autocomplete="off" required>
+        <!-- Input Box & Search Bar -->
+        <footer class="app-footer">
+            <form id="search-form" class="search-box glass-panel">
+                <input type="text" id="search-input" placeholder="यहाँ प्रश्न पूछें (जैसे: गॉस प्रमेय, राउल्ट नियम)..." autocomplete="off" required>
                 <button type="submit" id="send-btn" class="send-btn">
                     <i class="fa-solid fa-paper-plane"></i>
                 </button>
@@ -85,14 +72,20 @@
         </footer>
     </div>
 
-    <!-- Script Execution Sequence -->
+    <!-- Modular Knowledge Base Loading (Part 1 to Part 10) -->
     <script src="data_part1.js"></script>
-    <!-- Future Parts Link Layer:
     <script src="data_part2.js"></script>
     <script src="data_part3.js"></script>
-    ...
-    <script src="data_part20.js"></script>
-    -->
+    <script src="data_part4.js"></script>
+    <script src="data_part5.js"></script>
+    <script src="data_part6.js"></script>
+    <script src="data_part7.js"></script>
+    <script src="data_part8.js"></script>
+    <script src="data_part9.js"></script>
+    <script src="data_part10.js"></script>
+
+    <!-- Core App Logic Engine -->
     <script src="app.js"></script>
 </body>
-</html>
+        </html>
+        
