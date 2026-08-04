@@ -1,7 +1,7 @@
-// Vidyastra / Study War 12th - Core App Logic Engine (Pure UTF-8 Clean Edition)
+// Vidyastra / Study War 12th - Pure UTF-8 Core Logic Engine
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // 1. DOM Elements Selection
+
+    // 1. Elements Selection
     const onboardingScreen = document.getElementById('onboarding-screen');
     const appContainer = document.getElementById('app-container');
     const usernameInput = document.getElementById('username-input');
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchForm = document.getElementById('search-form');
     const searchInput = document.getElementById('search-input');
 
-    // 2. LocalStorage Check (Onboarding Check)
+    // 2. User Onboarding State
     let currentUser = localStorage.getItem('vidyastra_username');
 
     if (currentUser) {
@@ -19,16 +19,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (startBtn) {
-        startBtn.addEventListener('click', () => {
-            const name = usernameInput ? usernameInput.value.trim() : '';
-            if (name) {
-                localStorage.setItem('vidyastra_username', name);
-                currentUser = name;
-                showMainApp(name);
-            } else {
-                alert('कृपया अपना नाम दर्ज करें!');
-            }
+        startBtn.addEventListener('click', handleUserStart);
+    }
+
+    if (usernameInput) {
+        usernameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleUserStart();
         });
+    }
+
+    function handleUserStart() {
+        const name = usernameInput ? usernameInput.value.trim() : '';
+        if (name) {
+            localStorage.setItem('vidyastra_username', name);
+            currentUser = name;
+            showMainApp(name);
+        } else {
+            alert('कृपया अपना नाम दर्ज करें!');
+        }
     }
 
     function showMainApp(userName) {
@@ -36,19 +44,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (appContainer) appContainer.classList.remove('hidden');
         if (displayUsername) displayUsername.textContent = userName;
         
-        // Load Welcome Message safely
         initWelcomeMessage(userName);
     }
 
-    // 3. Clean Hindi Welcome Message Engine
+    // 3. Welcome Message Dispatcher
     function initWelcomeMessage(userName) {
         if (chatBox && chatBox.children.length === 0) {
-            const welcomeText = `नमस्ते **${userName}**! मैं **Study War 12th** का AI ट्यूटर हूँ।\n\nआप कक्षा 11th, 12th, NCERT, बोर्ड परीक्षा, UPSC या प्रतियोगी परीक्षाओं के किसी भी विषय (भौतिकी, रसायन, जीव विज्ञान, हिंदी, अंग्रेजी, इतिहास, भूगोल, नागरिक शास्त्र, समाजशास्त्र, अर्थशास्त्र) से संबंधित प्रश्न पूछ सकते हैं।`;
-            appendBotMessage(welcomeText);
+            const welcomeMsg = `नमस्ते **${userName}**! मैं **Study War 12th** का AI ट्यूटर हूँ।\n\nआप कक्षा 11th, 12th, NCERT, बोर्ड परीक्षा या प्रतियोगी परीक्षाओं के किसी भी विषय (भौतिकी, रसायन, जीव विज्ञान, हिंदी, अंग्रेजी, इतिहास, भूगोल, नागरिक शास्त्र, समाजशास्त्र, अर्थशास्त्र) से संबंधित प्रश्न पूछ सकते हैं।`;
+            appendBotMessage(welcomeMsg);
         }
     }
 
-    // 4. Search Form Handler
+    // 4. Form Submit & Search Handling
     if (searchForm) {
         searchForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -61,23 +68,23 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 const response = searchKnowledgeBase(query);
                 appendBotMessage(response);
-            }, 250);
+            }, 200);
         });
     }
 
-    // 5. Smart Offline Search Algorithm
+    // 5. Offline Knowledge Base Search Engine
     function searchKnowledgeBase(query) {
         const db = window.VIDYASTRA_DATABASE || {};
-        const lowerQuery = query.toLowerCase();
+        const lowerQuery = query.toLowerCase().trim();
 
-        // Direct Topic Exact Match
+        // Direct Topic Match
         for (let topic in db) {
             if (topic.toLowerCase().includes(lowerQuery) || lowerQuery.includes(topic.toLowerCase())) {
                 return db[topic];
             }
         }
 
-        // Keyword Match inside Content
+        // Deep Content Keyword Search
         for (let topic in db) {
             const content = db[topic];
             if (typeof content === 'string' && content.toLowerCase().includes(lowerQuery)) {
@@ -89,34 +96,58 @@ document.addEventListener('DOMContentLoaded', () => {
         return `क्षमा करें, मुझे **"${query}"** से संबंधित सटीक उत्तर नहीं मिला।\n\n💡 **सुझाव:**\n- विषय का नाम या मुख्य कीवर्ड सही से लिखें (जैसे: *गॉस प्रमेय, राउल्ट नियम, जैव विविधता, जनसांख्यिकी, माँग का नियम*)।`;
     }
 
-    // 6. Message Rendering Functions
+    // 6. Message Rendering Functions with Animated Avatars
     function appendUserMessage(msg) {
-        const msgDiv = document.createElement('div');
-        msgDiv.className = 'message user-message glass-panel';
-        msgDiv.textContent = msg;
-        if (chatBox) {
-            chatBox.appendChild(msgDiv);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
+        if (!chatBox) return;
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'message-wrapper user-wrapper';
+
+        wrapper.innerHTML = `
+            <div class="msg-avatar user-avatar-bg animated-user">👤</div>
+            <div class="message-bubble user-message glass-panel">${escapeHTML(msg)}</div>
+        `;
+
+        chatBox.appendChild(wrapper);
+        chatBox.scrollTop = chatBox.scrollHeight;
     }
 
     function appendBotMessage(msg) {
-        const msgDiv = document.createElement('div');
-        msgDiv.className = 'message bot-message glass-panel';
-        msgDiv.innerHTML = formatMarkdown(msg);
-        if (chatBox) {
-            chatBox.appendChild(msgDiv);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
+        if (!chatBox) return;
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'message-wrapper bot-wrapper';
+
+        wrapper.innerHTML = `
+            <div class="msg-avatar bot-avatar-bg animated-tutor">🤖</div>
+            <div class="message-bubble bot-message glass-panel">${formatMarkdown(msg)}</div>
+        `;
+
+        chatBox.appendChild(wrapper);
+        chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    // 7. Markdown & Text Formatting
+    // Helper: HTML Escape for User Input Safety
+    function escapeHTML(str) {
+        return str.replace(/[&<>'"]/g, 
+            tag => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                "'": '&#39;',
+                '"': '&quot;'
+            }[tag] || tag)
+        );
+    }
+
+    // Helper: Simple Markdown Parser
     function formatMarkdown(text) {
         if (!text) return '';
         return text
-            .replace(/### (.*)/g, '<h3 style="color:#00f3ff; margin-top:10px;">$1</h3>')
+            .replace(/### (.*)/g, '<h3>$1</h3>')
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
             .replace(/\*(.*?)\*/g, '<em>$1</em>')
             .replace(/\n/g, '<br>');
     }
 });
+
