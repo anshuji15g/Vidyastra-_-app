@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google SEO Meta Tags -->
+    <title>Vidyastra - Study War 12th | Free AI Tutor for Class 11th & 12th</title>
+    <meta name="description" content="Vidyastra (विद्यास्त्र) - Study War 12th: Class 11th, 12th, UPSC, UPP, and Agniveer preparation with free offline AI tutor engine. Made by Ayushman.">
+    <meta name="keywords" content="Vidyastra, Study War 12th, Class 12 Physics, Chemistry, Biology, Hindi, English, History, Political Science, UPSC, Ayushman">
+    <meta name="author" content="Ayushman">
+    <meta name="theme-color" content="#0b0e11">
+    
+    <!-- PWA Manifest Link -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Highlight.js CDN for Syntax Highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Onboarding / Welcome Modal Screen -->
+    <div id="onboarding-screen" class="onboarding-overlay">
+        <div class="onboarding-card glass-panel">
+            <div class="logo-glow">SW</div>
+            <h1>Vidyastra</h1>
+            <p class="subtitle">Study War 12th</p>
+            <p class="tagline">आपका अपना स्मार्ट AI ट्यूटर प्लेटफ़ॉर्म</p>
+            
+            <div class="input-group">
+                <label for="username-input"><i class="fa-solid fa-user"></i> आपका शुभ नाम क्या है?</label>
+                <input type="text" id="username-input" placeholder="यहाँ अपना नाम लिखें..." autocomplete="off">
+            </div>
+            
+            <button id="start-btn" class="neon-btn">शुरू करें <i class="fa-solid fa-arrow-right"></i></button>
+            <p class="credits">Made by Ayushman</p>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="app-container" class="app-container hidden">
+        <!-- Neon Glass Header -->
+        <header class="neon-header glass-panel">
+            <div class="header-left">
+                <div class="logo-icon-small">SW</div>
+                <div class="header-titles">
+                    <h2 class="gradient-text">Study War 12th</h2>
+                    <span class="author-tag">Made by Ayushman</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <span id="user-display-name" class="user-badge"></span>
+            </div>
+        </header>
+
+        <!-- Chat Area -->
+        <main id="chat-box" class="chat-box">
+            <!-- Messages will be dynamically rendered here -->
+        </main>
+
+        <!-- Typing Indicator -->
+        <div id="typing-indicator" class="typing-indicator hidden">
+            <div class="bot-avatar">🤖</div>
+            <div class="dots-container glass-panel">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+
+        <!-- Input Footer Area -->
+        <footer class="input-footer glass-panel">
+            <form id="chat-form">
+                <input type="text" id="chat-input" placeholder="यहाँ प्रश्न पूछें (जैसे: गॉस प्रमेय, राउल्ट नियम)..." autocomplete="off" required>
+                <button type="submit" id="send-btn" class="send-btn">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </form>
+        </footer>
+    </div>
+
+    <!-- Script Execution Sequence -->
+    <script src="data_part1.js"></script>
+    <!-- Future Parts Link Layer:
+    <script src="data_part2.js"></script>
+    <script src="data_part3.js"></script>
+    ...
+    <script src="data_part20.js"></script>
+    -->
+    <script src="app.js"></script>
+</body>
+</html>
